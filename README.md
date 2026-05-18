@@ -8,7 +8,7 @@ Official **JavaScript/TypeScript client** for the [Hi Energy Rocket API](https:/
 | **Staging API** | `https://staging.hienergyrocket.com/api/v1` |
 | **Production API** | `https://app.hienergyrocket.com/api/v1` |
 | **Documentation** | [staging.hienergyrocket.com/api_documentation](https://staging.hienergyrocket.com/api_documentation) |
-| **Ruby gem** | [HiEnergyAgency/hi_energy_api](https://github.com/HiEnergyAgency/hi_energy_api) |
+| **Ruby gem** | [HiEnergyAgency/hi-energy-ai-ruby](https://github.com/HiEnergyAgency/hi-energy-ai-ruby) |
 
 ## Installation
 
