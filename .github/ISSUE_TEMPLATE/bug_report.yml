@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a problem with the JavaScript/TypeScript SDK
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please search [existing issues](https://github.com/HiEnergyAgency/hi-energy-ai-js/issues) first.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal TypeScript/JavaScript code to reproduce the issue.
+      render: typescript
+    validations:
+      required: true
+
+  - type: input
+    id: node_version
+    attributes:
+      label: Node.js version
+      placeholder: "22.x"
+    validations:
+      required: true
+
+  - type: input
+    id: package_version
+    attributes:
+      label: Package version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: api_response
+    attributes:
+      label: API response (optional)
+      description: HTTP status, error code, or response snippet. Redact API keys.
+      render: shell

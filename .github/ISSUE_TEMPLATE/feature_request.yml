@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an improvement to the JavaScript/TypeScript SDK
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For new API endpoints, link to the [API documentation](https://app.hienergyrocket.com/api_documentation) if available.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to do? Why is the current SDK insufficient?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How should the SDK behave? Which resource/method names do you expect?
+    validations:
+      required: true
+
+  - type: input
+    id: api_endpoint
+    attributes:
+      label: API endpoint (if applicable)
+      placeholder: "GET /api/v1/advertisers"

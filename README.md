@@ -153,6 +153,15 @@ try {
 }
 ```
 
+## Contributing
+
+We welcome bug reports, feature requests, and pull requests.
+
+- **Report an issue:** [github.com/HiEnergyAgency/hi-energy-ai-js/issues/new/choose](https://github.com/HiEnergyAgency/hi-energy-ai-js/issues/new/choose)
+- **Submit a pull request:** fork the repo, branch from `main`, run `npm test` and `npm run build`, then open a PR — see [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow
+
+---
+
 ## Development
 
 ```bash

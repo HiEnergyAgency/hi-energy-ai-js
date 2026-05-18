@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: API documentation
+    url: https://app.hienergyrocket.com/api_documentation
+    about: Endpoint reference, playground, and API keys
+  - name: Ruby SDK issues
+    url: https://github.com/HiEnergyAgency/hi-energy-ai-ruby/issues
+    about: Report issues with the Ruby gem
+  - name: Contributing guide
+    url: https://github.com/HiEnergyAgency/hi-energy-ai-js/blob/main/CONTRIBUTING.md
+    about: How to submit pull requests and report issues
