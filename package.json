@@ -1,0 +1,60 @@
+{
+  "name": "hi-energy-ai",
+  "version": "0.1.0",
+  "description": "Official JavaScript/TypeScript client for the Hi Energy Rocket affiliate marketing API",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "hi-energy",
+    "hienergy",
+    "affiliate",
+    "api",
+    "sdk",
+    "deals",
+    "advertisers",
+    "mcp"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyptkarsh/hi-energy-ai-js.git"
+  },
+  "homepage": "https://github.com/flyptkarsh/hi-energy-ai-js#readme",
+  "bugs": {
+    "url": "https://github.com/flyptkarsh/hi-energy-ai-js/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  }
+}
