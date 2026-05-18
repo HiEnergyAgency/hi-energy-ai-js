@@ -156,7 +156,7 @@ try {
 ## Development
 
 ```bash
-git clone https://github.com/flyptkarsh/hi-energy-ai-js.git
+git clone https://github.com/HiEnergyAgency/hi-energy-ai-js.git
 cd hi-energy-ai-js
 npm install
 npm test
