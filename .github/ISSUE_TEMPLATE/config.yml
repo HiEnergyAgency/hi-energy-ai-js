@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: API documentation
-    url: https://app.hienergyrocket.com/api_documentation
+    url: https://app.hienergy.ai/api_documentation
     about: Endpoint reference, playground, and API keys
   - name: Ruby SDK issues
     url: https://github.com/HiEnergyAgency/hi-energy-ai-ruby/issues

@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        For new API endpoints, link to the [API documentation](https://app.hienergyrocket.com/api_documentation) if available.
+        For new API endpoints, link to the [API documentation](https://app.hienergy.ai/api_documentation) if available.
 
   - type: textarea
     id: problem

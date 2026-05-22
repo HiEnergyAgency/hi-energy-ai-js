@@ -50,6 +50,14 @@ export class Response<T = unknown> {
     return page === undefined || page === null ? null : (page as number | string);
   }
 
+  nextCursor(): string | null {
+    if (!this.meta) return null;
+    const cursor =
+      this.meta.next_cursor ?? this.meta.nextCursor ?? this.meta.after;
+    if (cursor === undefined || cursor === null || cursor === "") return null;
+    return String(cursor);
+  }
+
   hasMore(): boolean {
     if (this.meta && "has_more" in this.meta) {
       return Boolean(this.meta.has_more);
@@ -57,10 +65,12 @@ export class Response<T = unknown> {
     if (this.meta && "hasMore" in this.meta) {
       return Boolean(this.meta.hasMore);
     }
-    return this.nextPage() !== null;
+    return this.nextPage() !== null || this.nextCursor() !== null;
   }
 
-  nextPageParams(): { page: number | string } | null {
+  nextPageParams(): { page: number | string } | { after: string } | null {
+    const cursor = this.nextCursor();
+    if (cursor !== null) return { after: cursor };
     const page = this.nextPage();
     if (page === null) return null;
     return { page };
