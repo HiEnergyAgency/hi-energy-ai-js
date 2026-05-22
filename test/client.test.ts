@@ -104,6 +104,44 @@ describe("Client", () => {
     expect(() => new Client()).toThrow(/apiKey or bearerToken/);
   });
 
+  it("throws HiEnergyError with MISSING_CREDENTIALS code when no credentials provided", () => {
+    let caught: unknown;
+    try {
+      new Client();
+    } catch (err) {
+      caught = err;
+    }
+    expect(caught).toBeInstanceOf(HiEnergyError);
+    expect((caught as HiEnergyError).code).toBe("MISSING_CREDENTIALS");
+  });
+
+  it("wraps AbortError timeouts as HiEnergyError with TIMEOUT code", async () => {
+    const fetchMock = vi.fn().mockImplementation((_url, init?: RequestInit) => {
+      return new Promise((_resolve, reject) => {
+        const signal = init?.signal;
+        if (signal) {
+          signal.addEventListener("abort", () => {
+            const err = new Error("The operation was aborted.");
+            err.name = "AbortError";
+            reject(err);
+          });
+        }
+      });
+    });
+
+    const client = new Client({
+      apiKey,
+      baseUrl,
+      fetch: fetchMock,
+      timeout: 10,
+    });
+
+    await expect(client.advertisers.list()).rejects.toMatchObject({
+      name: "HiEnergyError",
+      code: "TIMEOUT",
+    });
+  });
+
   it("appends dry_run when enabled", async () => {
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ data: [] }));
 
@@ -117,6 +155,62 @@ describe("Client", () => {
 
     const [url] = fetchMock.mock.calls[0] as [URL];
     expect(url.searchParams.get("dry_run")).toBe("true");
+  });
+
+  it("paginates with cursor pagination using meta.next_cursor", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: [{ id: "1" }],
+          meta: { has_more: true, next_cursor: "cur_abc" },
+        }),
+      )
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: [{ id: "2" }],
+          meta: { has_more: false },
+        }),
+      );
+
+    const client = new Client({ apiKey, baseUrl, fetch: fetchMock });
+    const pages = await client.paginate("/deals", { limit: 1 }).collect();
+
+    expect(pages).toHaveLength(2);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [secondUrl] = fetchMock.mock.calls[1] as [URL];
+    expect(secondUrl.searchParams.get("after")).toBe("cur_abc");
+    expect(secondUrl.searchParams.get("page")).toBeNull();
+  });
+
+  it("throws PAGINATION_RUNAWAY when iterator exceeds MAX_PAGES", async () => {
+    const { MAX_PAGES } = await import("../src/paginator.js");
+    const fetchMock = vi.fn().mockImplementation(() =>
+      Promise.resolve(
+        jsonResponse({
+          data: [{ id: "x" }],
+          meta: { has_more: true, next_page: 2 },
+        }),
+      ),
+    );
+
+    const client = new Client({ apiKey, baseUrl, fetch: fetchMock });
+    const paginator = client.paginate("/deals");
+
+    let pageCount = 0;
+    let caught: unknown;
+    try {
+      for await (const _page of paginator) {
+        pageCount += 1;
+        if (pageCount > MAX_PAGES + 1) break;
+      }
+    } catch (err) {
+      caught = err;
+    }
+
+    expect(caught).toBeInstanceOf(HiEnergyError);
+    expect((caught as HiEnergyError).code).toBe("PAGINATION_RUNAWAY");
+    expect(pageCount).toBe(MAX_PAGES);
   });
 
   it("paginates through pages", async () => {
