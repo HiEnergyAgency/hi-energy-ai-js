@@ -1,18 +1,12 @@
 import { VERSION } from "./version.js";
 
 export const PRODUCTION = {
-  appOrigin: "https://app.hienergyrocket.com",
-  baseUrl: "https://app.hienergyrocket.com/api/v1",
-  documentationUrl: "https://app.hienergyrocket.com/api_documentation",
+  appOrigin: "https://app.hienergy.ai",
+  baseUrl: "https://app.hienergy.ai/api/v1",
+  documentationUrl: "https://app.hienergy.ai/api_documentation",
 } as const;
 
-export const STAGING = {
-  appOrigin: "https://staging.hienergyrocket.com",
-  baseUrl: "https://staging.hienergyrocket.com/api/v1",
-  documentationUrl: "https://staging.hienergyrocket.com/api_documentation",
-} as const;
-
-export const DEFAULT_TIMEOUT = 30_000;
+export const DEFAULT_TIMEOUT = 60_000;
 
 export interface ClientOptions {
   apiKey?: string;
@@ -21,6 +15,14 @@ export interface ClientOptions {
   appOrigin?: string;
   timeout?: number;
   userAgent?: string;
+  /**
+   * When `true`, the SDK appends `?dry_run=true` to every outgoing request.
+   *
+   * Important: this is a *server-side* flag — the HTTP request is still made
+   * and your credentials must still be valid. It is not an offline / mock
+   * mode. To stub requests in tests, inject a custom `fetch` implementation
+   * via the `fetch` option instead.
+   */
   dryRun?: boolean;
   fetch?: typeof fetch;
 }
@@ -38,8 +40,8 @@ export class Configuration {
   constructor(options: ClientOptions = {}) {
     this.apiKey = options.apiKey;
     this.bearerToken = options.bearerToken;
-    this.baseUrl = options.baseUrl ?? STAGING.baseUrl;
-    this.appOrigin = options.appOrigin ?? STAGING.appOrigin;
+    this.baseUrl = options.baseUrl ?? PRODUCTION.baseUrl;
+    this.appOrigin = options.appOrigin ?? PRODUCTION.appOrigin;
     this.timeout = options.timeout ?? DEFAULT_TIMEOUT;
     this.dryRun = options.dryRun ?? false;
     this.userAgent =

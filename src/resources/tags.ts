@@ -6,6 +6,11 @@ export class Tags extends Resource {
     return this.get("/tags", params);
   }
 
+  /**
+   * @deprecated `Tags.search` is an alias for {@link Tags.list} — it hits the
+   * same `GET /tags` endpoint with the same parameters. Use `list()` instead.
+   * This method will be removed in a future release.
+   */
   search(params: QueryParams = {}) {
     return this.list(params);
   }

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { Client, HiEnergyError, PRODUCTION, STAGING } from "../src/index.js";
+import { Client, HiEnergyError, PRODUCTION } from "../src/index.js";
 
 function jsonResponse(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
@@ -10,11 +10,11 @@ function jsonResponse(body: unknown, status = 200): Response {
 
 describe("Client", () => {
   const apiKey = "test_api_key";
-  const baseUrl = "https://staging.hienergyrocket.com/api/v1";
+  const baseUrl = "https://app.hienergy.ai/api/v1";
 
-  it("defaults to staging URLs", () => {
-    expect(STAGING.baseUrl).toBe(baseUrl);
-    expect(PRODUCTION.appOrigin).toBe("https://app.hienergyrocket.com");
+  it("defaults to production URLs", () => {
+    expect(PRODUCTION.baseUrl).toBe(baseUrl);
+    expect(PRODUCTION.appOrigin).toBe("https://app.hienergy.ai");
   });
 
   it("lists advertisers", async () => {

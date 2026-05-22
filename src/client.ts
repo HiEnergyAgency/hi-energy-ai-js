@@ -1,7 +1,6 @@
 import {
   Configuration,
   type ClientOptions,
-  STAGING,
 } from "./configuration.js";
 import { HiEnergyError } from "./error.js";
 import { Paginator, type QueryParams } from "./paginator.js";
@@ -74,7 +73,9 @@ export class Client {
     if (options.fetch !== undefined) this.config.fetchImpl = options.fetch;
 
     if (!this.config.credentialsPresent()) {
-      throw new Error("apiKey or bearerToken is required");
+      throw new HiEnergyError("apiKey or bearerToken is required", {
+        code: "MISSING_CREDENTIALS",
+      });
     }
   }
 
@@ -264,6 +265,17 @@ export class Client {
         return new Response(response.status, response.headers, parsed);
       }
       throw HiEnergyError.fromResponse(response.status, parsed);
+    } catch (err) {
+      if (
+        err instanceof Error &&
+        (err.name === "AbortError" || err.name === "TimeoutError")
+      ) {
+        throw new HiEnergyError(
+          `Request to ${url.toString()} timed out after ${this.config.timeout}ms. For long-running queries consider client.exports (async exports).`,
+          { code: "TIMEOUT" },
+        );
+      }
+      throw err;
     } finally {
       clearTimeout(timeout);
     }
@@ -290,6 +302,17 @@ export class Client {
 
 let globalConfig = new Configuration();
 
+/**
+ * Replace the process-wide default Configuration used as the starting point
+ * for every subsequently constructed {@link Client}.
+ *
+ * NOTE: this mutates **module-level** state. Every `new Client({})` created
+ * after this call inherits the new defaults (the per-call options passed to
+ * the constructor still take precedence). Prefer passing options directly to
+ * `new Client({ ... })` unless you genuinely want a process-global default,
+ * e.g. in a small script. In tests, remember to reset by calling
+ * `configure({})` again at the end of the suite.
+ */
 export function configure(options: ClientOptions): Configuration {
   globalConfig = new Configuration(options);
   return globalConfig;
@@ -324,5 +347,3 @@ async function parseBody(response: globalThis.Response): Promise<unknown> {
     return text;
   }
 }
-
-export { STAGING };

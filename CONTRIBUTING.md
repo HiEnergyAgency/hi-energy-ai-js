@@ -1,6 +1,6 @@
 # Contributing to hi-energy-ai-js
 
-Thank you for helping improve the official JavaScript/TypeScript client for the [Hi Energy Rocket API](https://app.hienergyrocket.com/api_documentation).
+Thank you for helping improve the official JavaScript/TypeScript client for the [Hi Energy API](https://app.hienergy.ai/api_documentation).
 
 ## Reporting issues
 
@@ -9,7 +9,7 @@ Before opening an issue, check [existing issues](https://github.com/HiEnergyAgen
 **Use issues for:**
 
 - Bugs in the SDK (wrong endpoints, params, types, errors, pagination)
-- Missing API resources or methods that exist in the [API documentation](https://app.hienergyrocket.com/api_documentation)
+- Missing API resources or methods that exist in the [API documentation](https://app.hienergy.ai/api_documentation)
 - TypeScript type improvements
 - Documentation improvements
 - Feature requests for the JavaScript/TypeScript client
@@ -88,6 +88,6 @@ Be respectful and constructive in issues and pull requests.
 
 ## Questions
 
-- **API usage:** [app.hienergyrocket.com/api_documentation](https://app.hienergyrocket.com/api_documentation) (production: [app.hienergy.ai](https://app.hienergy.ai/api_documentation))
+- **API usage:** [app.hienergy.ai/api_documentation](https://app.hienergy.ai/api_documentation)
 - **Ruby SDK:** [hi-energy-ai-ruby](https://github.com/HiEnergyAgency/hi-energy-ai-ruby)
 - **npm package:** [hi-energy-ai](https://www.npmjs.com/package/hi-energy-ai)
